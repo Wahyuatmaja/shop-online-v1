@@ -24,7 +24,7 @@ Index Materi
 20. Product Index. -> FastDev Start.
 21. Get Add Product.
 22. Post Add Product.
-23. Get Edit Page.
+23. Get Edit Product.
 24. Edit Product View.
 25. Post Edit Product.
 26. Upload Gallery Image.
