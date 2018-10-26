@@ -21,7 +21,7 @@ Index Materi
 17. Edit Category.
 18. Delete Category.
 19. Product Model Route & Package Setup.
-20. Product Index.
+20. Product Index. -> FastDev Start.
 21. Get Add Product.
 22. Post Add Product.
 23. Get Edit Page.
