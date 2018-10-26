@@ -85,6 +85,7 @@ var adminProducts = require("./routes/admin_products.js");
 // setup links
 app.use("/admin/pages", adminPages);
 app.use("/admin/categories", adminCategories);
+app.use("/admin/products", adminProducts);
 app.use("/", pages);
 
 // Setup server
