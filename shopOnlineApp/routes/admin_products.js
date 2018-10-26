@@ -131,40 +131,42 @@ router.post("/add-product", function(req, res) {
   }
 });
 
-// Membuat POST sortable pages
-router.post("/reorder-pages", function(req, res) {
-  // console.log(req.body);
+// GET edit product
+router.get("/edit-product/:id", function(req, res) {
+  var errors;
 
-  var ids = req.body["id[]"];
+  if (req.session.errors) errors = req.session.errors;
+  req.session.errors = null;
 
-  var count = 0;
+  Category.find(function(err, categories) {
+    Product.findById(req.params.id, function(err, p) {
+      if (err) {
+        console.log(err);
+        res.redirect("/admin/products");
+      } else {
+        var galleryDir = "public/product_images/" + p._id + "/gallery";
+        var galleryImages = null;
 
-  for (var i = 0; i < ids.length; i++) {
-    var id = ids[i];
-    count++;
+        fs.readdir(galleryDir, function(err, files) {
+          if (err) {
+            console.log(err);
+          } else {
+            galleryImages = files;
 
-    (function(count) {
-      Page.findById(id, function(err, page) {
-        page.sorting = count;
-        page.save(function(err) {
-          if (err) return console.log(err);
+            res.render("admin/edit_product", {
+              title: p.title,
+              errors: errors,
+              desc: p.desc,
+              categories: categories,
+              category: p.category.replace(/\s+/g, "-").toLowerCase(),
+              price: parseFloat(p.price).toFixed(2),
+              image: p.image,
+              galleryImages: galleryImages,
+              id: p._id
+            });
+          }
         });
-      });
-    })(count);
-  }
-});
-
-// GET edit page
-
-router.get("/edit-page/:slug", function(req, res) {
-  Page.findOne({ slug: req.params.slug }, function(err, page) {
-    if (err) return console.log(err);
-
-    res.render("admin/edit_page", {
-      title: page.title,
-      slug: page.slug,
-      content: page.content,
-      id: page._id
+      }
     });
   });
 });
