@@ -291,13 +291,25 @@ router.get("/delete-image/:image", function(req, res) {
   });
 });
 
-// GET delete page
-router.get("/delete-pages/:id", function(req, res) {
-  Page.findByIdAndRemove(req.params.id, function(err) {
-    if (err) return console.log(err);
+// GET delete product
+/*
+ * GET delete product
+ */
+router.get("/delete-product/:id", function(req, res) {
+  var id = req.params.id;
+  var path = "public/product_images/" + id;
 
-    req.flash("success", "Page deleted!");
-    res.redirect("/admin/pages/");
+  fs.remove(path, function(err) {
+    if (err) {
+      console.log(err);
+    } else {
+      Product.findByIdAndRemove(id, function(err) {
+        console.log(err);
+      });
+
+      req.flash("success", "Product deleted!");
+      res.redirect("/admin/products");
+    }
   });
 });
 
