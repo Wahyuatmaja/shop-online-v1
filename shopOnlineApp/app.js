@@ -126,7 +126,7 @@ require("./config/passport")(passport);
 app.use(passport.initialize());
 app.use(passport.session());
 
-// vid 41
+// vid 41 app get star
 app.get("*", function(req, res, next) {
   res.locals.cart = req.session.cart;
   res.locals.user = req.user || null;
@@ -137,6 +137,7 @@ app.get("*", function(req, res, next) {
 var pages = require("./routes/pages.js");
 var products = require("./routes/products.js");
 var cart = require("./routes/cart.js");
+var users = require("./routes/users.js");
 var adminPages = require("./routes/admin_pages.js");
 var adminCategories = require("./routes/admin_categories.js");
 var adminProducts = require("./routes/admin_products.js");
@@ -147,6 +148,7 @@ app.use("/admin/categories", adminCategories);
 app.use("/admin/products", adminProducts);
 app.use("/products", products);
 app.use("/cart", cart);
+app.use("/users", users);
 app.use("/", pages);
 
 // Setup server
