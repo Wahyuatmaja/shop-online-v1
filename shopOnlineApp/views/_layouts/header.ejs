@@ -70,9 +70,12 @@
         <li><a href="/users/logout">Hi,
             <%= user.username %> ( logout )</a></li>
         <% } else {%>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
         <li><a href="/users/register">Register</a></li>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
         <li><a href="/users/login">Log in</a></li>
         <% } %>
+        <li>&nbsp;&nbsp;&nbsp;&nbsp;</li>
         <% if (user && user.admin == 1) { %>
         <li><a href="/admin/pages">Admin Area</a></li>
         <% }%>
