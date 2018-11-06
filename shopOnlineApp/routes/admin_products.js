@@ -3,6 +3,8 @@ var router = express.Router();
 var mkdirp = require("mkdirp");
 var fs = require("fs-extra");
 var resizeImg = require("resize-img");
+var auth = require("../config/auth");
+var isAdmin = auth.isAdmin;
 
 // Get Product model.
 var Product = require("../models/product");
@@ -11,7 +13,7 @@ var Product = require("../models/product");
 var Category = require("../models/category");
 
 // Get pages index
-router.get("/", function(req, res) {
+router.get("/", isAdmin, function(req, res) {
   var count;
 
   Product.count(function(err, c) {
@@ -27,7 +29,7 @@ router.get("/", function(req, res) {
 });
 
 // Membuat add product dengan method GET
-router.get("/add-product", function(req, res) {
+router.get("/add-product", isAdmin, function(req, res) {
   var title = "";
   var desc = "";
   var price = "";
@@ -132,7 +134,7 @@ router.post("/add-product", function(req, res) {
 });
 
 // GET edit product
-router.get("/edit-product/:id", function(req, res) {
+router.get("/edit-product/:id", isAdmin, function(req, res) {
   var errors;
 
   if (req.session.errors) errors = req.session.errors;
@@ -266,7 +268,7 @@ router.post("/product-gallery/:id", function(req, res) {
 });
 
 // GET delete image
-router.get("/delete-image/:image", function(req, res) {
+router.get("/delete-image/:image", isAdmin, function(req, res) {
   var originalImage =
     "public/product_images/" + req.query.id + "/gallery/" + req.params.image;
   var thumbImage =
@@ -295,7 +297,7 @@ router.get("/delete-image/:image", function(req, res) {
 /*
  * GET delete product
  */
-router.get("/delete-product/:id", function(req, res) {
+router.get("/delete-product/:id", isAdmin, function(req, res) {
   var id = req.params.id;
   var path = "public/product_images/" + id;
 
