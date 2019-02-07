@@ -7,9 +7,8 @@ var session = require("express-session");
 var expressValidator = require("express-validator");
 var fileUpload = require("express-fileupload");
 var passport = require("passport");
-
-// production
-require('./startup/prod')(app);
+var helmet = require('helmet');
+var compression = require('compression');
 
 // Connect to db
 mongoose.connect(config.database);
@@ -23,6 +22,10 @@ db.once("open", function () {
 
 // Initial
 var app = express();
+
+// production
+app.use(helmet());
+app.use(compression());
 
 // View engine setup
 app.set("views", path.join(__dirname, "views"));
