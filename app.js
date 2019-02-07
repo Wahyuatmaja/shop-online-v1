@@ -158,7 +158,11 @@ app.use("/users", users);
 app.use("/", pages);
 
 // Setup server
-var port = 3000;
-app.listen(port, function () {
-  console.log("Server running on port " + port);
-});
+// var port = 3000;
+// app.listen(port, function () {
+//   console.log("Server running on port " + port);
+// });
+
+// PORT
+var port = process.env.PORT || 3000;
+app.listen(port, () => console.log(`Server running on port ${port}.`));
