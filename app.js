@@ -8,12 +8,15 @@ var expressValidator = require("express-validator");
 var fileUpload = require("express-fileupload");
 var passport = require("passport");
 
+// production
+require('./startup/prod')(app);
+
 // Connect to db
 mongoose.connect(config.database);
 var db = mongoose.connection;
 
 db.on("error", console.error.bind(console, "connection error:"));
-db.once("open", function() {
+db.once("open", function () {
   // we're connected!
   console.log("Conected to database");
 });
@@ -37,7 +40,7 @@ var Page = require("./models/page");
 // Get all pages to pass to header.ejs
 Page.find({})
   .sort({ sorting: 1 })
-  .exec(function(err, pages) {
+  .exec(function (err, pages) {
     if (err) {
       console.log(err);
     } else {
@@ -49,7 +52,7 @@ Page.find({})
 var Category = require("./models/category");
 
 // Get all categories to pass to header.ejs
-Category.find(function(err, categories) {
+Category.find(function (err, categories) {
   if (err) {
     console.log(err);
   } else {
@@ -79,7 +82,7 @@ app.use(
 // Setup express validator middleware
 app.use(
   expressValidator({
-    errorFormatter: function(param, msg, value) {
+    errorFormatter: function (param, msg, value) {
       var namespace = param.split("."),
         root = namespace.shift(),
         formParam = root;
@@ -94,7 +97,7 @@ app.use(
       };
     },
     customValidators: {
-      isImage: function(value, filename) {
+      isImage: function (value, filename) {
         var extension = path.extname(filename).toLowerCase();
         switch (extension) {
           case ".jpg":
@@ -115,7 +118,7 @@ app.use(
 
 // Setup express messages middleware
 app.use(require("connect-flash")());
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   res.locals.messages = require("express-messages")(req, res);
   next();
 });
@@ -127,7 +130,7 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // vid 41 app get star
-app.get("*", function(req, res, next) {
+app.get("*", function (req, res, next) {
   res.locals.cart = req.session.cart;
   res.locals.user = req.user || null;
   next();
@@ -153,6 +156,6 @@ app.use("/", pages);
 
 // Setup server
 var port = 3000;
-app.listen(port, function() {
+app.listen(port, function () {
   console.log("Server running on port " + port);
 });
