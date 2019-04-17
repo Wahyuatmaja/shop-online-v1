@@ -1,3 +1,4 @@
 module.exports = {
-  database: 'mongodb://localhost/shoponline'
+  database: 'mongodb://localhost/shoponline',
+  
 }
